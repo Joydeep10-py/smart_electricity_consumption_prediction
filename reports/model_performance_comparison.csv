@@ -1,0 +1,7 @@
+Model,MAE,RMSE,R2,CV_R2_Mean,CV_R2_Std,Train_Time_Sec
+Gradient Boosting,70.236,81.022,0.5569,0.5684,0.0029,8.61
+Random Forest,70.786,82.028,0.5459,0.5564,0.0024,2.11
+Ridge Regression,70.941,82.314,0.5427,0.5561,0.0032,0.04
+Linear Regression,70.941,82.314,0.5427,0.5561,0.0032,0.06
+SVR (3k subsample),72.297,84.757,0.5151,0.5141,0.014,1.79
+Decision Tree,72.904,85.52,0.5064,0.4978,0.002,0.3

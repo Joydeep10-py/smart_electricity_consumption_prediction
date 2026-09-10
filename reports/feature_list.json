@@ -1,0 +1,22 @@
+{
+  "model_features": [
+    "Fan",
+    "Refrigerator",
+    "AirConditioner",
+    "Television",
+    "Monitor",
+    "Total_Appliance_Hours",
+    "Estimated_Load_kWh",
+    "Month_sin",
+    "Month_cos",
+    "City_Encoded",
+    "Company_Encoded",
+    "Season_Encoded"
+  ],
+  "target": "MonthlyHours",
+  "excluded_leakage_columns": [
+    "TariffRate",
+    "ElectricityBill"
+  ],
+  "note": "TariffRate is kept in the dataset for post-hoc Bill = predicted_MonthlyHours * TariffRate, not used as a model input."
+}

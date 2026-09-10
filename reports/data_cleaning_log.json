@@ -1,0 +1,57 @@
+{
+  "duplicate_rows": 0,
+  "negative_value_counts": {
+    "Fan": 0,
+    "Refrigerator": 0,
+    "AirConditioner": 0,
+    "Television": 0,
+    "Monitor": 0,
+    "MotorPump": 0,
+    "MonthlyHours": 0
+  },
+  "constant_columns_dropped": [
+    "MotorPump"
+  ],
+  "iqr_outliers": {
+    "Fan": {
+      "lower_bound": -6.0,
+      "upper_bound": 34.0,
+      "n_outliers": 0
+    },
+    "Refrigerator": {
+      "lower_bound": 20.5,
+      "upper_bound": 24.5,
+      "n_outliers": 8274
+    },
+    "AirConditioner": {
+      "lower_bound": -0.5,
+      "upper_bound": 3.5,
+      "n_outliers": 0
+    },
+    "Television": {
+      "lower_bound": -8.0,
+      "upper_bound": 32.0,
+      "n_outliers": 0
+    },
+    "Monitor": {
+      "lower_bound": 1.0,
+      "upper_bound": 1.0,
+      "n_outliers": 8971
+    },
+    "MonthlyHours": {
+      "lower_bound": 171.0,
+      "upper_bound": 859.0,
+      "n_outliers": 115
+    },
+    "TariffRate": {
+      "lower_bound": 6.4,
+      "upper_bound": 10.4,
+      "n_outliers": 0
+    },
+    "ElectricityBill": {
+      "lower_bound": 1333.8,
+      "upper_bound": 7261.8,
+      "n_outliers": 161
+    }
+  }
+}
