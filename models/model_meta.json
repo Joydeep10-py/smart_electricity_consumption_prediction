@@ -1,0 +1,32 @@
+{
+  "model_features": [
+    "Fan",
+    "Refrigerator",
+    "AirConditioner",
+    "Television",
+    "Monitor",
+    "Total_Appliance_Hours",
+    "Estimated_Load_kWh",
+    "Month_sin",
+    "Month_cos",
+    "City_Encoded",
+    "Company_Encoded",
+    "Season_Encoded"
+  ],
+  "target": "MonthlyHours",
+  "excluded_leakage_columns": [
+    "TariffRate",
+    "ElectricityBill"
+  ],
+  "note": "TariffRate is kept in the dataset for post-hoc Bill = predicted_MonthlyHours * TariffRate, not used as a model input.",
+  "best_model": "Gradient Boosting",
+  "best_model_metrics": {
+    "Model": "Gradient Boosting",
+    "MAE": 70.236,
+    "RMSE": 81.022,
+    "R2": 0.5569,
+    "CV_R2_Mean": 0.5684,
+    "CV_R2_Std": 0.0029,
+    "Train_Time_Sec": 8.61
+  }
+}
