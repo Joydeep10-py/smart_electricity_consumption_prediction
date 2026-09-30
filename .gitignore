@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large training data (not needed for deployment)
+data/X_train_scaled.csv
+data/X_test_scaled.csv
+data/y_train.csv
+data/y_test.csv
+data/weather_raw.csv
+data/monthly_climatology.csv
+data/merged_dataset.csv
+data/cleaned_dataset.csv
+data/engineered_dataset.csv
+data/electricity_bill_dataset.csv
+
+# Environment
+.env

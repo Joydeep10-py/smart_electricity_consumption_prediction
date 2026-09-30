@@ -1,0 +1,11 @@
+{
+  "strongest_correlate_with_consumption": {
+    "feature": "Television",
+    "correlation": 0.43
+  },
+  "highest_avg_bill_city": "Navi Mumbai",
+  "lowest_avg_bill_city": "Ratnagiri",
+  "peak_consumption_month": 7,
+  "lowest_consumption_month": 2,
+  "ac_usage_peak_month": 9
+}

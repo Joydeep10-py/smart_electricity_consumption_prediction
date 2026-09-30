@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPARK — Smart Power Analytics & Recommendation for Kilowatt Optimization</title>
+    <meta name="description" content="SPARK predicts household monthly electricity consumption from appliance usage, provides estimated bills, energy efficiency scores, and personalized saving recommendations." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- ═══════════════ AMBIENT BACKGROUND ═══════════════ -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ═══════════════ NAV ═══════════════ -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">SPARK</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#predict" class="nav-link active">Predict</a></li>
+                <li><a href="#results" class="nav-link">Results</a></li>
+                <li><a href="#model-info" class="nav-link">Model</a></li>
+            </ul>
+            <div class="nav-status" id="apiStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting…</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <header id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Machine Learning Powered</div>
+            <h1>Smart Electricity<br /><span class="gradient-text">Consumption Predictor</span></h1>
+            <p class="hero-subtitle">
+                Enter your household appliance usage and get an AI-driven prediction of monthly
+                electricity consumption, estimated bill, efficiency score, and personalized
+                saving recommendations.
+            </p>
+            <a href="#predict" class="hero-cta">
+                <span>Start Prediction</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card glass-card">
+                <div class="hero-card-header">
+                    <span class="hero-card-dot green"></span>
+                    <span class="hero-card-label">Live Model Status</span>
+                </div>
+                <div class="hero-card-stat">
+                    <span class="stat-value">R² = 0.557</span>
+                    <span class="stat-label">Gradient Boosting Regressor</span>
+                </div>
+                <div class="hero-card-stat">
+                    <span class="stat-value">MAE 70.24</span>
+                    <span class="stat-label">Mean Absolute Error (hrs)</span>
+                </div>
+                <div class="hero-card-stat">
+                    <span class="stat-value">45,345</span>
+                    <span class="stat-label">Training Records</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════ PREDICTION FORM ═══════════════ -->
+    <section id="predict">
+        <div class="section-header">
+            <span class="section-tag">Input</span>
+            <h2>Configure Your Household</h2>
+            <p>Adjust the sliders and select your city, company, and tariff to get a personalized prediction.</p>
+        </div>
+
+        <form id="predictionForm" class="prediction-grid" autocomplete="off">
+            <!-- Appliance Sliders -->
+            <div class="form-group glass-card" id="group-appliances">
+                <h3><span class="group-icon">🔌</span> Appliance Usage <span class="group-hint">(hours / day)</span></h3>
+                <div class="slider-row" id="slider-Fan">
+                    <label for="input-Fan">
+                        <span class="appliance-emoji">🌀</span> Fan
+                    </label>
+                    <input type="range" id="input-Fan" name="Fan" min="5" max="23" value="14" step="1" />
+                    <output id="output-Fan" class="slider-value">14</output>
+                </div>
+                <div class="slider-row" id="slider-Refrigerator">
+                    <label for="input-Refrigerator">
+                        <span class="appliance-emoji">🧊</span> Refrigerator
+                    </label>
+                    <input type="range" id="input-Refrigerator" name="Refrigerator" min="17" max="23" value="22" step="1" />
+                    <output id="output-Refrigerator" class="slider-value">22</output>
+                </div>
+                <div class="slider-row" id="slider-AirConditioner">
+                    <label for="input-AirConditioner">
+                        <span class="appliance-emoji">❄️</span> Air Conditioner
+                    </label>
+                    <input type="range" id="input-AirConditioner" name="AirConditioner" min="0" max="3" value="2" step="1" />
+                    <output id="output-AirConditioner" class="slider-value">2</output>
+                </div>
+                <div class="slider-row" id="slider-Television">
+                    <label for="input-Television">
+                        <span class="appliance-emoji">📺</span> Television
+                    </label>
+                    <input type="range" id="input-Television" name="Television" min="3" max="22" value="13" step="1" />
+                    <output id="output-Television" class="slider-value">13</output>
+                </div>
+                <div class="slider-row" id="slider-Monitor">
+                    <label for="input-Monitor">
+                        <span class="appliance-emoji">🖥️</span> Monitor
+                    </label>
+                    <input type="range" id="input-Monitor" name="Monitor" min="1" max="12" value="1" step="1" />
+                    <output id="output-Monitor" class="slider-value">1</output>
+                </div>
+            </div>
+
+            <!-- Location & Billing -->
+            <div class="form-group glass-card" id="group-location">
+                <h3><span class="group-icon">📍</span> Location & Billing</h3>
+
+                <div class="select-row" id="select-Month">
+                    <label for="input-Month">Month</label>
+                    <select id="input-Month" name="Month">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6" selected>June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+
+                <div class="select-row" id="select-City">
+                    <label for="input-City">City</label>
+                    <select id="input-City" name="City">
+                        <option value="">Loading…</option>
+                    </select>
+                </div>
+
+                <div class="select-row" id="select-Company">
+                    <label for="input-Company">Electricity Company</label>
+                    <select id="input-Company" name="Company">
+                        <option value="">Loading…</option>
+                    </select>
+                </div>
+
+                <div class="slider-row" id="slider-TariffRate">
+                    <label for="input-TariffRate">
+                        <span class="appliance-emoji">💲</span> Tariff Rate (₹/hr)
+                    </label>
+                    <input type="range" id="input-TariffRate" name="TariffRate" min="7.4" max="9.3" value="8.4" step="0.1" />
+                    <output id="output-TariffRate" class="slider-value">₹8.4</output>
+                </div>
+
+                <button type="submit" id="predictBtn" class="btn-predict">
+                    <span class="btn-text">⚡ Predict Consumption</span>
+                    <span class="btn-loader" hidden>
+                        <svg class="spinner" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="31" stroke-linecap="round"></circle></svg>
+                        Predicting…
+                    </span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ═══════════════ RESULTS ═══════════════ -->
+    <section id="results" class="hidden">
+        <div class="section-header">
+            <span class="section-tag">Output</span>
+            <h2>Prediction Results</h2>
+            <p id="resultSubtitle"></p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card glass-card" id="kpi-consumption">
+                <div class="kpi-icon">⚡</div>
+                <div class="kpi-body">
+                    <span class="kpi-value" id="kpiConsumption">—</span>
+                    <span class="kpi-unit">hours / month</span>
+                    <span class="kpi-label">Predicted Consumption</span>
+                </div>
+            </div>
+            <div class="kpi-card glass-card" id="kpi-bill">
+                <div class="kpi-icon">💰</div>
+                <div class="kpi-body">
+                    <span class="kpi-value" id="kpiBill">—</span>
+                    <span class="kpi-unit">INR / month</span>
+                    <span class="kpi-label">Estimated Bill</span>
+                </div>
+            </div>
+            <div class="kpi-card glass-card" id="kpi-efficiency">
+                <div class="kpi-icon">🌱</div>
+                <div class="kpi-body">
+                    <div class="efficiency-ring-wrapper">
+                        <svg class="efficiency-ring" viewBox="0 0 120 120">
+                            <circle class="ring-bg" cx="60" cy="60" r="52" />
+                            <circle class="ring-fg" id="efficiencyRing" cx="60" cy="60" r="52" />
+                        </svg>
+                        <span class="ring-value" id="kpiEfficiency">—</span>
+                    </div>
+                    <span class="kpi-label">Efficiency Score</span>
+                </div>
+            </div>
+            <div class="kpi-card glass-card" id="kpi-season">
+                <div class="kpi-icon" id="seasonIcon">🌤️</div>
+                <div class="kpi-body">
+                    <span class="kpi-value" id="kpiSeason">—</span>
+                    <span class="kpi-unit" id="kpiTariff">—</span>
+                    <span class="kpi-label">Season & Tariff</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appliance Breakdown -->
+        <div class="breakdown-section glass-card" id="breakdownSection">
+            <h3>Appliance Energy Breakdown</h3>
+            <div class="breakdown-bars" id="breakdownBars"></div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recs-section" id="recsSection">
+            <h3>Personalized Recommendations</h3>
+            <div class="recs-grid" id="recsGrid"></div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ MODEL INFO ═══════════════ -->
+    <section id="model-info">
+        <div class="section-header">
+            <span class="section-tag">Transparency</span>
+            <h2>Model Performance</h2>
+            <p>Full comparison of 7 algorithms trained on 45,345 records with 3-fold cross-validation.</p>
+        </div>
+
+        <div class="model-grid">
+            <div class="model-table-wrapper glass-card">
+                <table id="modelTable">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>MAE</th>
+                            <th>RMSE</th>
+                            <th>R²</th>
+                            <th>CV R² (mean)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modelTableBody">
+                        <!-- filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="fi-chart-wrapper glass-card">
+                <h3>Feature Importance</h3>
+                <div class="fi-bars" id="fiBars"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer id="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="logo-icon">⚡</span> SPARK
+                <span class="footer-tagline">Smart Power Analytics & Recommendation for Kilowatt Optimization</span>
+            </div>
+            <div class="footer-meta">
+                <span>DSN2098 Project Exhibition — I</span>
+                <span>·</span>
+                <span>Team SPARK</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
