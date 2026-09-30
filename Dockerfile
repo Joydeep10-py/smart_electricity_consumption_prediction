@@ -25,7 +25,6 @@ COPY app.py .
 COPY static/ static/
 COPY models/ models/
 COPY reports/ reports/
-COPY data/ data/
 
 # Expose port
 EXPOSE 5000
