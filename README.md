@@ -10,7 +10,7 @@
 ![XGBoost](https://img.shields.io/badge/XGBoost-Regressor-006400?style=flat-square)
 ![Flask](https://img.shields.io/badge/Flask-Dashboard-black?style=flat-square&logo=flask)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Model%20Trained-success?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Deployed_on_Render-success?style=flat-square)
 
 *Project Exhibition — I · DSN2098*
 
@@ -56,7 +56,7 @@ Most households have no effective way to monitor or understand their electricity
 | 🔮 **Consumption Prediction** | Predicts monthly household electricity usage from appliance-level inputs using a trained ML regression model |
 | 💰 **Smart Bill Estimation** | Converts predicted consumption into an estimated electricity bill using the household's actual tariff rate |
 | 📊 **Usage Pattern Analysis** | Identifies which appliances and behaviors are driving consumption |
-| 🌱 **Personalized Recommendations** | *(planned — dashboard layer)* AI-driven suggestions to reduce consumption and cost |
+| 🌱 **Personalized Recommendations** | AI-driven suggestions to reduce consumption and cost |
 
 ## 🏗️ System Architecture
 
@@ -158,9 +158,15 @@ python notebooks/pipeline.py
 # Optional: skip chart generation for a faster run
 python notebooks/pipeline.py --skip-plots
 
-# 3. (Coming next) Launch the prediction dashboard
+# 3. Launch the prediction dashboard
 python app.py
 ```
+
+### 🌐 Live Deployment
+The app is fully containerized and configured for one-click deployment:
+- **Docker:** `docker build -t spark . && docker run -p 5000:5000 spark`
+- **Render.com:** Native deployment supported via the included `render.yaml` blueprint.
+- **Heroku:** Supported via the included `Procfile`.
 
 ## 📊 Dataset
 
@@ -234,11 +240,11 @@ Full schema, data dictionary, and known limitations are documented in **[`docs/D
 ## 🔭 Future Improvements
 
 - [ ] Fetch **per-city weather data** instead of a single national proxy, once city-level geolocation data is available
-- [ ] Build the **Flask dashboard** (`app.py`) for interactive predictions and recommendations
+- [x] Build the **Flask dashboard** (`app.py`) for interactive predictions and recommendations
 - [ ] Add **SHAP-based explainability** for per-prediction transparency
 - [ ] Support **real smart-meter time-series data** for finer-grained, sub-monthly predictions
 - [ ] **Hyperparameter tuning** (GridSearchCV / Optuna) on the tree-based models
-- [ ] Containerize with **Docker** for one-command deployment
+- [x] Containerize with **Docker** for one-command deployment
 
 ## 👥 Team
 
