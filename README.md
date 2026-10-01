@@ -3,14 +3,14 @@
 # ⚡ SPARK
 ### Smart Power Analytics & Recommendation for Kilowatt Optimization
 
-**A machine learning system that predicts household electricity consumption and turns raw appliance usage into actionable energy-saving insights.**
+**A full-stack machine learning web application that predicts household electricity consumption, derives transparent utility bills, and delivers personalized kilowatt-saving recommendations.**
 
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
-![Scikit--learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-Regressor-006400?style=flat-square)
-![Flask](https://img.shields.io/badge/Flask-Dashboard-black?style=flat-square&logo=flask)
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square&logo=python&logoColor=white)
+![Scikit--learn](https://img.shields.io/badge/Scikit--learn-1.8.0-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-Jinja2_Dashboard-black?style=flat-square&logo=flask)
+![Chart.js](https://img.shields.io/badge/Chart.js-4.4-FF6384?style=flat-square&logo=chartdotjs&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Deployed_on_Render-success?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Live_on_Render-success?style=flat-square)
 
 *Project Exhibition — I · DSN2098*
 
@@ -23,6 +23,7 @@
 - [Overview](#-overview)
 - [Problem Statement](#-problem-statement)
 - [Features](#-features)
+- [Live Demo & Pages](#-live-demo--pages)
 - [System Architecture](#-system-architecture)
 - [Process Flow](#-process-flow)
 - [Project Structure](#-project-structure)
@@ -41,7 +42,7 @@
 
 ## 🔎 Overview
 
-**SPARK** predicts a household's **monthly electricity consumption** from its appliance usage patterns, then derives **estimated bills, energy efficiency scores, and personalized savings recommendations** from that prediction — built end-to-end from raw data to a trained, evaluated regression model.
+**SPARK** predicts a household's **monthly electricity consumption** from its appliance usage patterns, then derives **estimated bills, energy efficiency scores, and personalized savings recommendations** from that prediction — built end-to-end from raw data to a deployed, production-ready web application.
 
 > Consumption is *predicted*. Bill is *calculated*. That distinction is the backbone of this project's design — see [Key Insights](#-key-insights) for why it matters.
 
@@ -55,8 +56,25 @@ Most households have no effective way to monitor or understand their electricity
 |---|---|
 | 🔮 **Consumption Prediction** | Predicts monthly household electricity usage from appliance-level inputs using a trained ML regression model |
 | 💰 **Smart Bill Estimation** | Converts predicted consumption into an estimated electricity bill using the household's actual tariff rate |
-| 📊 **Usage Pattern Analysis** | Identifies which appliances and behaviors are driving consumption |
-| 🌱 **Personalized Recommendations** | AI-driven suggestions to reduce consumption and cost |
+| 📊 **Interactive Analytics Dashboard** | 4 Chart.js visualizations: appliance energy shares, runtime comparison, national quartile benchmarks, and 12-month seasonal projections |
+| 🧪 **What-If Energy Simulator** | Interactive "what-if" sliders to simulate how reducing appliance hours impacts monthly and annual bills |
+| 🌱 **Personalized Recommendations** | Rule-based energy optimization advice with specific rupee savings estimates |
+| 🌗 **Dark/Light Theme** | Full dark mode support with persistent theme preference |
+| 📄 **PDF Report Export** | One-click downloadable household energy reports |
+| 🔄 **Dual Execution Mode** | Live backend API or client-side fallback simulation with seamless switching |
+
+## 🌐 Live Demo & Pages
+
+The application consists of **6 interconnected pages**, each served via Flask + Jinja2:
+
+| Route | Page | Description |
+|---|---|---|
+| `/` | **Home** | Hero landing page with animated counters, methodology cards, and pipeline overview |
+| `/predict` | **Predictor** | Appliance hour sliders with live preview, presets (Saver / Average / Heavy), and ML inference |
+| `/dashboard` | **Dashboard** | Full analytics with KPI cards, 4 charts, what-if simulator, and personalized recommendations |
+| `/insights` | **EDA & Climatology** | Exploratory data analysis charts, city billing comparisons, and weather correlation findings |
+| `/model` | **Model Benchmarks** | 7-algorithm comparison table, R²/MAE charts, feature importance, and residual diagnostics |
+| `/about` | **Team & About** | Academic team roster, faculty supervision board, tech stack, and references |
 
 ## 🏗️ System Architecture
 
@@ -66,7 +84,7 @@ flowchart LR
     B --> C[Feature Engineering<br/>Domain-informed features]
     C --> D[ML Model Training<br/>7 algorithms compared]
     D --> E[Prediction Engine<br/>Consumption → Bill → Efficiency Score]
-    E --> F[Dashboard<br/>Flask Web App]
+    E --> F[Dashboard<br/>Flask + Jinja2 Web App]
 ```
 
 | Stage | Description |
@@ -75,7 +93,7 @@ flowchart LR
 | **2. Feature Engineering** | Builds `Total_Appliance_Hours`, `Estimated_Load_kWh`, cyclical month encoding, seasonal buckets |
 | **3. ML Model Training** | Trains and compares Linear Regression, Ridge, Decision Tree, Random Forest, Gradient Boosting, XGBoost, and SVR |
 | **4. Prediction Engine** | Predicts monthly consumption, then computes monthly bill and efficiency score from it |
-| **5. Dashboard** | Displays predictions and recommendations through an interactive Flask web application |
+| **5. Web Dashboard** | Multi-page Jinja2 app with Chart.js visualizations, what-if simulator, and REST API |
 
 ## 🔄 Process Flow
 
@@ -99,13 +117,30 @@ sequenceDiagram
 
 ```
 SPARK_project/
-├── data/
-│   ├── electricity_bill_dataset.csv     # raw appliance/bill data (45,345 records)
-│   ├── weather_raw.csv                  # raw Open-Meteo historical export
-│   ├── monthly_climatology.csv          # Step 1 output — Month-level weather aggregation
-│   ├── merged_dataset.csv               # Step 2 output — bill + weather joined on Month
-│   ├── cleaned_dataset.csv              # Step 3 output — deduplicated, validated
-│   └── engineered_dataset.csv           # Step 5 output — model-ready features
+├── data/                                # Training data (gitignored — not needed for deployment)
+│
+├── templates/                           # Jinja2 HTML templates
+│   ├── base.html                        # Shared layout: navbar, footer, scripts
+│   ├── index.html                       # Home / landing page
+│   ├── predict.html                     # Appliance predictor form
+│   ├── dashboard.html                   # Analytics dashboard + what-if simulator
+│   ├── insights.html                    # EDA & climatology analysis
+│   ├── model.html                       # ML benchmarks & evaluation
+│   └── about.html                       # Team & academic context
+│
+├── static/
+│   ├── css/
+│   │   ├── style.css                    # Full design system (dark/light, glassmorphism)
+│   │   └── print.css                    # Print-optimized styles for PDF export
+│   ├── js/
+│   │   ├── data.js                      # Centralized dataset constants & city tariffs
+│   │   ├── api.js                       # API client (live backend + mock fallback)
+│   │   ├── charts.js                    # Chart.js visualization library
+│   │   ├── predict.js                   # Predict page controller (sliders, presets)
+│   │   ├── dashboard.js                 # Dashboard page controller (KPIs, simulator)
+│   │   ├── recommendations.js           # Dynamic recommendation engine
+│   │   └── main.js                      # Theme toggle, toasts, mobile nav, counters
+│   └── img/                             # Model evaluation plots (PNG)
 │
 ├── notebooks/
 │   ├── 01_weather_climatology.py
@@ -116,7 +151,7 @@ SPARK_project/
 │   ├── 06_train_test_split.py
 │   ├── 07_model_training.py
 │   ├── 08_evaluation.py
-│   └── pipeline.py                      # standalone script — runs all 8 steps end-to-end
+│   └── pipelines.py                     # standalone script — runs all 8 steps end-to-end
 │
 ├── models/
 │   ├── best_model.pkl                   # trained Gradient Boosting regressor
@@ -132,17 +167,14 @@ SPARK_project/
 │   ├── feature_importance.csv
 │   └── model_performance_comparison.csv
 │
-├── visuals/
-│   ├── actual_vs_predicted.png
-│   ├── residual_plot.png
-│   ├── residual_distribution.png
-│   └── feature_importance.png
-│
 ├── docs/
 │   └── Dataset_Documentation.md
 │
-├── app.py                               # Flask app (deployment — upcoming)
-├── requirements.txt
+├── app.py                               # Flask app (API + Jinja2 page routes)
+├── requirements.txt                     # Pinned dependencies (scikit-learn==1.8.0)
+├── Dockerfile                           # Docker container config (Python 3.13)
+├── Procfile                             # Heroku / Render start command
+├── render.yaml                          # Render.com blueprint
 └── README.md
 ```
 
@@ -153,13 +185,11 @@ SPARK_project/
 pip install -r requirements.txt
 
 # 2. Run the full pipeline (preprocessing → training → evaluation)
-python notebooks/pipeline.py
+python notebooks/pipelines.py
 
-# Optional: skip chart generation for a faster run
-python notebooks/pipeline.py --skip-plots
-
-# 3. Launch the prediction dashboard
+# 3. Launch the web application
 python app.py
+# → Open http://localhost:5000
 ```
 
 ### 🌐 Live Deployment
@@ -167,6 +197,8 @@ The app is fully containerized and configured for one-click deployment:
 - **Docker:** `docker build -t spark . && docker run -p 5000:5000 spark`
 - **Render.com:** Native deployment supported via the included `render.yaml` blueprint.
 - **Heroku:** Supported via the included `Procfile`.
+
+> **Note:** Model artifacts (`best_model.pkl`, `scaler.pkl`, `label_encoders.pkl`) are pinned to **scikit-learn 1.8.0** and **Python 3.13**. Mismatched versions will cause deserialization errors.
 
 ## 📊 Dataset
 
@@ -204,7 +236,7 @@ Full schema, data dictionary, and known limitations are documented in **[`docs/D
 **Best model: Gradient Boosting Regressor** — chosen for the highest test R² and the tightest, most stable cross-validation spread.
 
 <div align="center">
-<img src="visuals/actual_vs_predicted.png" width="420"/> <img src="visuals/feature_importance.png" width="420"/>
+<img src="static/img/actual_vs_predicted.png" width="420"/> <img src="static/img/feature_importance.png" width="420"/>
 </div>
 
 ## 💡 Key Insights
@@ -215,16 +247,18 @@ Full schema, data dictionary, and known limitations are documented in **[`docs/D
 - **Weather has ~zero effect on consumption in this dataset** (correlation < 0.04 for every weather variable). This was tested, not assumed — see the EDA report. Air Conditioner usage was found to be essentially flat across all 12 months, so no seasonal appliance behavior exists to correlate against.
 - **No single appliance dominates individually** — Television, Fan, Refrigerator, Monitor, and Air Conditioner each correlate 0.27–0.43 with consumption; it's their *sum*, not any one of them, that matters most.
 - **R² ≈ 0.56 is an honest ceiling**, not a shortfall — residuals are unbiased (mean ≈ 0.15) and symmetric, meaning remaining variance reflects real-world noise rather than a systematic model failure.
+- **Input validation matters** — the model was trained on specific ranges (Fan: 5-23, Fridge: 17-23, AC: 0-3, TV: 3-22, Monitor: 1-12). Out-of-distribution inputs (e.g., all zeros) are rejected with a zero-prediction guard.
 
 ## 🛠️ Tech Stack
 
-![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![Pandas](https://img.shields.io/badge/-Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/-NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
-![Scikit--learn](https://img.shields.io/badge/-Scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
-![XGBoost](https://img.shields.io/badge/-XGBoost-006400?style=flat-square)
-![Matplotlib](https://img.shields.io/badge/-Matplotlib-11557C?style=flat-square)
-![Flask](https://img.shields.io/badge/-Flask-black?style=flat-square&logo=flask&logoColor=white)
+![Python](https://img.shields.io/badge/-Python_3.13-3776AB?style=flat-square&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/-Pandas_3.0-150458?style=flat-square&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/-NumPy_2.4-013243?style=flat-square&logo=numpy&logoColor=white)
+![Scikit--learn](https://img.shields.io/badge/-Scikit--learn_1.8-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![Flask](https://img.shields.io/badge/-Flask_3.x-black?style=flat-square&logo=flask&logoColor=white)
+![Chart.js](https://img.shields.io/badge/-Chart.js_4.4-FF6384?style=flat-square&logo=chartdotjs&logoColor=white)
+![Font Awesome](https://img.shields.io/badge/-Font_Awesome_6-528DD7?style=flat-square&logo=fontawesome&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![Open--Meteo](https://img.shields.io/badge/-Open--Meteo%20API-0EA5E9?style=flat-square)
 
 ## 🌐 Applications
@@ -245,6 +279,9 @@ Full schema, data dictionary, and known limitations are documented in **[`docs/D
 - [ ] Support **real smart-meter time-series data** for finer-grained, sub-monthly predictions
 - [ ] **Hyperparameter tuning** (GridSearchCV / Optuna) on the tree-based models
 - [x] Containerize with **Docker** for one-command deployment
+- [x] Multi-page **Jinja2 frontend** with dark/light theme and Chart.js visualizations
+- [x] **What-If Energy Simulator** for prospective savings analysis
+- [x] Input validation with **dataset-range-constrained sliders** and zero-input guard
 
 ## 👥 Team
 
