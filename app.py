@@ -309,6 +309,31 @@ def predict_api():
     except (ValueError, TypeError) as e:
         return jsonify({"error": f"Invalid field value: {e}"}), 400
 
+    # -- guard: if all appliance hours are zero, skip model (out-of-distribution) --
+    total_appliance_hours = fan + fridge + ac + tv + monitor
+    if total_appliance_hours <= 0:
+        season = to_season(month)
+        return jsonify({
+            "predicted_monthly_hours": 0,
+            "predicted_hours": 0,
+            "predicted_monthly_bill": 0,
+            "estimated_bill": 0,
+            "efficiency_score": 100,
+            "tariff_rate": tariff,
+            "tariff": tariff,
+            "season": season,
+            "total_appliance_hours": 0,
+            "estimated_load_kwh": 0,
+            "appliance_breakdown": [],
+            "appliance_kwh": {},
+            "recommendations": [{"icon": "bolt", "title": "No Appliances Active", "detail": "All appliance hours are set to zero. Adjust the sliders to see a prediction.", "potential_saving": "N/A"}],
+            "city": city,
+            "company": company,
+            "month": month,
+            "input_summary": {"city": city, "company": company, "month": month},
+            "isMock": False,
+        })
+
     # -- feature engineering (identical to 05_feature_engineering.py) --
     total_appliance_hours = fan + fridge + ac + tv + monitor
     estimated_load_kwh = (

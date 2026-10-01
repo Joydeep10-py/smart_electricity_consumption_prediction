@@ -74,6 +74,16 @@ const SPARK_API = (function() {
     const season = getSeasonName(month);
     const tariff = getCityTariff(city);
 
+    // Guard: if all appliances are zero, return zero prediction
+    if (total_hours <= 0) {
+      return {
+        predicted_hours: 0, tariff: tariff, estimated_bill: 0,
+        efficiency_score: 100, total_appliance_hours: 0,
+        estimated_load_kwh: 0, season: season, appliance_kwh: {},
+        city: city, company: company, month: month, isMock: true
+      };
+    }
+
     // 2. Empirical Regression Equation closely calibrated with Gradient Boosting test distribution
     // Baseline mean = 515.08, correlation with Total_Appliance_Hours = ~0.85
     let raw_hours = 515.0 + 5.52 * (total_hours - 52.5) + (ac * 3.2) + (month === 7 || month === 1 ? 4.5 : -2.0);

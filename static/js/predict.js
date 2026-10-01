@@ -68,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Presets handling
   const presets = {
     saver: { fan: 8, refrigerator: 18, air_conditioner: 0, television: 4, monitor: 1, month: 2 },
-    average: { fan: 14, refrigerator: 22, air_conditioner: 1.5, television: 12, monitor: 3, month: 7 },
-    heavy: { fan: 20, refrigerator: 23, air_conditioner: 3, television: 16, monitor: 8, month: 5 }
+    average: { fan: 14, refrigerator: 22, air_conditioner: 2, television: 13, monitor: 1, month: 7 },
+    heavy: { fan: 20, refrigerator: 23, air_conditioner: 3, television: 18, monitor: 8, month: 5 }
   };
 
   document.querySelectorAll('.preset-btn').forEach(btn => {
