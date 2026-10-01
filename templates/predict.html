@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Predict Consumption — SPARK Energy Intelligence{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+  <div class="section-header" style="text-align: left; margin-bottom: 2rem; max-width: 100%;">
+    <span class="badge badge-primary"><i class="fa-solid fa-sliders"></i> Machine Learning Inference</span>
+    <h1 style="font-size: 2.4rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">Household Consumption Predictor</h1>
+    <p style="color: var(--text-secondary);">
+      Adjust your daily appliance runtime hours below. SPARK uses a trained <strong>Gradient Boosting Regressor</strong>
+      to forecast total monthly consumption (kWh units) and computes your estimated bill using your city's municipal tariff schedule.
+    </p>
+  </div>
+
+  <!-- Quick Presets -->
+  <div class="card" style="margin-bottom: 2rem; padding: 1.25rem 1.5rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div style="font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-wand-magic-sparkles text-primary"></i> Quick Presets:
+      </div>
+      <div class="preset-container" style="margin-bottom: 0;">
+        <button type="button" class="preset-btn" data-preset="saver">
+          <i class="fa-solid fa-leaf"></i> Low Usage / Energy Saver
+        </button>
+        <button type="button" class="preset-btn active" data-preset="average">
+          <i class="fa-solid fa-house"></i> National Dataset Median
+        </button>
+        <button type="button" class="preset-btn" data-preset="heavy">
+          <i class="fa-solid fa-fire"></i> High Summer Usage
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="predict-layout">
+    <!-- Form Column -->
+    <div class="card">
+      <form id="prediction-form">
+        <div class="form-group-title">
+          <i class="fa-solid fa-plug text-primary"></i> Daily Appliance Operating Hours (0–24 hrs)
+        </div>
+
+        <!-- Fan -->
+        <div class="appliance-input-row">
+          <div class="appliance-label-row">
+            <span class="appliance-name"><i class="fa-solid fa-fan text-primary"></i> Ceiling Fan</span>
+            <span class="appliance-wattage">Rating: 75W (Induction)</span>
+          </div>
+          <div class="appliance-controls">
+            <input type="range" id="fan-slider" class="range-slider" min="0" max="24" step="0.5" value="14">
+            <input type="number" id="fan-input" class="input-num" min="0" max="24" step="0.5" value="14">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">hrs/day</span>
+          </div>
+        </div>
+
+        <!-- Refrigerator -->
+        <div class="appliance-input-row">
+          <div class="appliance-label-row">
+            <span class="appliance-name"><i class="fa-solid fa-temperature-low text-primary"></i> Refrigerator</span>
+            <span class="appliance-wattage">Rating: 150W (Frost-Free)</span>
+          </div>
+          <div class="appliance-controls">
+            <input type="range" id="refrigerator-slider" class="range-slider" min="0" max="24" step="0.5" value="22">
+            <input type="number" id="refrigerator-input" class="input-num" min="0" max="24" step="0.5" value="22">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">hrs/day</span>
+          </div>
+        </div>
+
+        <!-- Air Conditioner -->
+        <div class="appliance-input-row">
+          <div class="appliance-label-row">
+            <span class="appliance-name"><i class="fa-solid fa-snowflake text-primary"></i> Air Conditioner</span>
+            <span class="appliance-wattage">Rating: 1,500W (1.5 Ton Split)</span>
+          </div>
+          <div class="appliance-controls">
+            <input type="range" id="air_conditioner-slider" class="range-slider" min="0" max="24" step="0.5" value="1.5">
+            <input type="number" id="air_conditioner-input" class="input-num" min="0" max="24" step="0.5" value="1.5">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">hrs/day</span>
+          </div>
+        </div>
+
+        <!-- Television -->
+        <div class="appliance-input-row">
+          <div class="appliance-label-row">
+            <span class="appliance-name"><i class="fa-solid fa-tv text-primary"></i> Television & Audio</span>
+            <span class="appliance-wattage">Rating: 100W (LED 55")</span>
+          </div>
+          <div class="appliance-controls">
+            <input type="range" id="television-slider" class="range-slider" min="0" max="24" step="0.5" value="12">
+            <input type="number" id="television-input" class="input-num" min="0" max="24" step="0.5" value="12">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">hrs/day</span>
+          </div>
+        </div>
+
+        <!-- Monitor -->
+        <div class="appliance-input-row">
+          <div class="appliance-label-row">
+            <span class="appliance-name"><i class="fa-solid fa-desktop text-primary"></i> Computer Monitor</span>
+            <span class="appliance-wattage">Rating: 30W (27" IPS)</span>
+          </div>
+          <div class="appliance-controls">
+            <input type="range" id="monitor-slider" class="range-slider" min="0" max="24" step="0.5" value="3">
+            <input type="number" id="monitor-input" class="input-num" min="0" max="24" step="0.5" value="3">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">hrs/day</span>
+          </div>
+        </div>
+
+        <!-- Location, Month, and Utility -->
+        <div class="form-group-title" style="margin-top: 2rem;">
+          <i class="fa-solid fa-location-dot text-primary"></i> Billing & Calendar Parameters
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Billing Month</label>
+            <select id="month-select" class="select-custom">
+              <option value="1">January (Winter)</option>
+              <option value="2">February (Winter)</option>
+              <option value="3">March (Summer)</option>
+              <option value="4">April (Summer)</option>
+              <option value="5">May (Summer)</option>
+              <option value="6">June (Summer)</option>
+              <option value="7" selected>July (Monsoon)</option>
+              <option value="8">August (Monsoon)</option>
+              <option value="9">September (Monsoon)</option>
+              <option value="10">October (Post-Monsoon)</option>
+              <option value="11">November (Post-Monsoon)</option>
+              <option value="12">December (Winter)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">City & Municipal Tariff</label>
+            <select id="city-select" class="select-custom">
+              <option value="Hyderabad" selected>Hyderabad (Telangana) — ₹8.4/kWh</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Electricity Distribution Utility (DISCOM)</label>
+          <select id="company-select" class="select-custom">
+            <option value="Tata Power Company Ltd." selected>Tata Power Company Ltd.</option>
+          </select>
+        </div>
+
+        <!-- Soft Warnings -->
+        <div id="soft-warning-box" class="warning-box"></div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+          <button type="submit" id="predict-submit-btn" class="btn btn-primary" style="flex: 1;">
+            <i class="fa-solid fa-calculator"></i> Calculate Consumption & Bill
+          </button>
+          <button type="button" id="reset-btn" class="btn btn-outline">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Live Preview Sidebar -->
+    <div>
+      <div class="preview-card">
+        <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-eye text-primary"></i> Live Input Preview
+        </h3>
+
+        <div class="preview-kpi-box">
+          <span class="preview-label">Active Season</span>
+          <span id="preview-season-badge" class="badge badge-monsoon">Monsoon</span>
+        </div>
+
+        <div class="preview-kpi-box">
+          <span class="preview-label">City Tariff Rate</span>
+          <span id="preview-tariff-chip" style="font-weight: 700; color: var(--text-primary);">₹8.4 / Unit</span>
+        </div>
+
+        <div class="preview-kpi-box">
+          <span class="preview-label">Total Daily Hours</span>
+          <span id="preview-total-hours" class="preview-val">52.5 hrs/day</span>
+        </div>
+
+        <div class="preview-kpi-box">
+          <span class="preview-label">Estimated Daily Load</span>
+          <span id="preview-daily-load" class="preview-val">7.89 kWh</span>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">
+
+        <div style="background-color: var(--bg-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.35rem;">
+            Estimated Monthly Projection
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <span id="preview-quick-hours" style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; color: var(--primary);">~515 Units</span>
+            <span id="preview-quick-bill" style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700; color: var(--accent-emerald);">~₹4,326</span>
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem;">
+            *Click "Calculate" to run full 12-feature Gradient Boosting ML inference with full diagnostic breakdown.
+          </div>
+        </div>
+
+        <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+          <i class="fa-solid fa-circle-info text-primary" style="margin-right: 0.35rem;"></i>
+          <strong>Zero Target Leakage:</strong> We strictly forecast electricity consumption in units, preventing synthetic 1.0 R² inflation.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+{% endblock %}

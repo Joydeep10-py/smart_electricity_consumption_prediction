@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard — SPARK Energy Intelligence{% endblock %}
+
+{% block content %}
+<div class="container" id="dashboard-content" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+  <!-- Print Only Header -->
+  <div class="print-header">
+    <h1>⚡ SPARK — Household Electricity Consumption & Efficiency Report</h1>
+    <p>Project Exhibition — I (DSN2098) · Generated via Gradient Boosting ML Inference Engine</p>
+  </div>
+
+  <!-- Dashboard Top Bar -->
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
+        <span class="badge badge-primary"><i class="fa-solid fa-chart-line"></i> Inference Output</span>
+        <span id="kpi-household-meta" class="badge badge-purple">Hyderabad · Monsoon · Tariff: ₹8.4/kWh</span>
+      </div>
+      <h1 style="font-size: 2.2rem; margin: 0;">Household Energy Dashboard</h1>
+    </div>
+
+    <div style="display: flex; gap: 0.75rem;">
+      <button id="modify-inputs-btn" class="btn btn-outline btn-sm">
+        <i class="fa-solid fa-sliders"></i> Modify Inputs
+      </button>
+      <button id="print-report-btn" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-file-pdf"></i> Download Report (PDF)
+      </button>
+    </div>
+  </div>
+
+  <!-- 4 KPI Summary Cards -->
+  <div class="dashboard-kpi-grid">
+    <!-- 1. Predicted Consumption -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="preview-label">Predicted Consumption</span>
+        <div class="kpi-icon-badge" style="background-color: var(--primary-light); color: var(--primary);">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+      </div>
+      <div class="kpi-number" id="kpi-predicted-hours">515.0</div>
+      <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem;">
+        Monthly Hours (kWh Units)
+      </div>
+      <div class="kpi-subtext" id="kpi-hours-diff">
+        <span class="text-success"><i class="fa-solid fa-check"></i> Baseline</span> vs national avg (515 hrs)
+      </div>
+    </div>
+
+    <!-- 2. Estimated Bill -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="preview-label">Estimated Monthly Bill</span>
+        <div class="kpi-icon-badge" style="background-color: var(--accent-gold-light); color: var(--accent-gold);">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+        </div>
+      </div>
+      <div class="kpi-number" id="kpi-estimated-bill" style="color: var(--accent-gold);">₹4,326</div>
+      <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem;">
+        Calculated Utility Bill
+      </div>
+      <div class="kpi-subtext" id="kpi-bill-formula">
+        515.0 units × ₹8.4/kWh (Municipal Tariff)
+      </div>
+    </div>
+
+    <!-- 3. Efficiency Score -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="preview-label">Efficiency Benchmark</span>
+        <div class="kpi-icon-badge" style="background-color: var(--accent-emerald-light); color: var(--accent-emerald);">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <div class="kpi-number" id="kpi-efficiency-score" style="color: var(--accent-emerald);">64/100</div>
+          <div style="margin-top: 0.35rem;">
+            <span id="kpi-efficiency-grade" class="badge badge-success">B (Moderate)</span>
+          </div>
+        </div>
+        <!-- Circular SVG Gauge -->
+        <div class="efficiency-gauge-container">
+          <svg class="circular-gauge-svg" viewBox="0 0 120 120">
+            <circle class="gauge-bg" cx="60" cy="60" r="54"></circle>
+            <circle id="efficiency-gauge-circle" class="gauge-val" cx="60" cy="60" r="54"></circle>
+          </svg>
+          <div class="gauge-center-text" id="efficiency-gauge-text">64%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Daily Load Profile -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="preview-label">Daily Connected Load</span>
+        <div class="kpi-icon-badge" style="background-color: var(--accent-purple-light); color: var(--accent-purple);">
+          <i class="fa-solid fa-gauge-high"></i>
+        </div>
+      </div>
+      <div class="kpi-number" id="kpi-daily-load">7.89 kWh</div>
+      <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.25rem;">
+        Estimated Energy / Day
+      </div>
+      <div class="kpi-subtext" id="kpi-daily-runtime">
+        52.5 hrs active across 5 appliances
+      </div>
+    </div>
+  </div>
+
+  <!-- Transparent Bill Derivation Banner -->
+  <div class="leakage-banner">
+    <i class="fa-solid fa-shield-halved"></i>
+    <div>
+      <div style="font-weight: 700; font-size: 1rem; color: var(--text-primary); margin-bottom: 0.2rem;">
+        Transparent Bill Derivation — Zero Target Leakage
+      </div>
+      <div style="font-size: 0.88rem; color: var(--text-secondary);">
+        In empirical datasets, <code>Bill = MonthlyHours × TariffRate</code>.
+        To uphold scientific validity, SPARK strictly uses ML to predict genuine physical consumption (<code>MonthlyHours</code>),
+        and applies your municipal DISCOM rate downstream to arrive at the final payable sum.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 Interactive Charts Grid (2x2) -->
+  <div class="charts-grid-2x2">
+    <!-- Chart 1: Appliance Daily Share -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-chart-pie"></i> Daily Energy Consumption by Appliance (kWh)</h3>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="chart-appliance-share"></canvas>
+      </div>
+    </div>
+
+    <!-- Chart 2: Runtime Comparison -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-chart-simple"></i> Operating Hours vs National Baseline</h3>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="chart-appliance-runtime"></canvas>
+      </div>
+    </div>
+
+    <!-- Chart 3: Benchmark Quartiles -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-ranking-star"></i> Consumption Relative to National Quartiles</h3>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="chart-benchmark"></canvas>
+      </div>
+    </div>
+
+    <!-- Chart 4: 12-Month Projection -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-calendar-days"></i> 12-Month Seasonal Consumption Projection</h3>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="chart-seasonal-projection"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- What-If Energy Simulator -->
+  <div class="simulator-container">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <span class="badge badge-primary"><i class="fa-solid fa-flask"></i> Interactive Simulator</span>
+        <h2 style="font-size: 1.6rem; margin-top: 0.4rem; margin-bottom: 0.25rem;">"What-If" Energy Optimization Lab</h2>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; margin: 0;">
+          Simulate how reducing daily runtime on high-wattage equipment directly trims your monthly and annual utility bill.
+        </p>
+      </div>
+      <div>
+        <span class="badge badge-success"><i class="fa-solid fa-bolt"></i> Live Debounce Recalculation</span>
+      </div>
+    </div>
+
+    <div class="simulator-grid">
+      <!-- Sliders Column -->
+      <div>
+        <div class="sim-slider-row">
+          <div class="sim-slider-header">
+            <span><i class="fa-solid fa-snowflake text-primary"></i> Reduce Air Conditioner Runtime</span>
+            <span id="sim-ac-val" class="badge badge-primary">-1.0h</span>
+          </div>
+          <input type="range" id="sim-ac-reduction" class="range-slider" min="0" max="3" step="0.5" value="1">
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+            <span>0 hours</span>
+            <span>-1.5 hrs</span>
+            <span>-3.0 hrs/day</span>
+          </div>
+        </div>
+
+        <div class="sim-slider-row">
+          <div class="sim-slider-header">
+            <span><i class="fa-solid fa-fan text-primary"></i> Curtail Idle Ceiling Fans</span>
+            <span id="sim-fan-val" class="badge badge-primary">-2.0h</span>
+          </div>
+          <input type="range" id="sim-fan-reduction" class="range-slider" min="0" max="6" step="1" value="2">
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+            <span>0 hours</span>
+            <span>-3 hrs</span>
+            <span>-6 hrs/day</span>
+          </div>
+        </div>
+
+        <div class="sim-slider-row" style="margin-bottom: 0;">
+          <div class="sim-slider-header">
+            <span><i class="fa-solid fa-tv text-primary"></i> Cut TV Standby / Screen Time</span>
+            <span id="sim-tv-val" class="badge badge-primary">-1.0h</span>
+          </div>
+          <input type="range" id="sim-tv-reduction" class="range-slider" min="0" max="4" step="1" value="1">
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+            <span>0 hours</span>
+            <span>-2 hrs</span>
+            <span>-4 hrs/day</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Impact Summary Card -->
+      <div class="sim-impact-card">
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">
+          Potential Savings
+        </div>
+        <div class="sim-savings-num" id="sim-savings-monthly">₹423</div>
+        <div style="font-size: 0.88rem; font-weight: 600; color: var(--accent-emerald); margin-bottom: 1.25rem;">
+          Rupees Saved Every Month
+        </div>
+
+        <div style="background-color: var(--bg-subtle); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1rem;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Annual Financial Impact</div>
+          <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700; color: var(--text-primary);" id="sim-savings-annual">
+            ₹5,076 / year
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-around; font-size: 0.82rem; color: var(--text-secondary);">
+          <div>New Bill: <strong id="sim-new-bill">₹3,903/mo</strong></div>
+          <div>New Units: <strong id="sim-new-units">465 Units</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Energy Recommendations -->
+  <div>
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <span class="badge badge-success"><i class="fa-solid fa-lightbulb"></i> Actionable Intelligence</span>
+        <h2 style="font-size: 1.8rem; margin-top: 0.35rem; margin-bottom: 0.25rem;">Personalized Kilowatt-Saving Recommendations</h2>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; margin: 0;">
+          Rule-based energy optimization advice tailored to your active appliance profile and municipal tariff.
+        </p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="text-align: right;">
+          <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Total Potential Savings</div>
+          <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--accent-emerald);" id="total-potential-savings-rupees">
+            ₹630/mo
+          </div>
+        </div>
+        <span id="total-potential-savings-kwh" class="badge badge-success">75 kWh/mo</span>
+      </div>
+    </div>
+
+    <!-- Recommendations Container -->
+    <div id="recommendations-container" class="rec-grid">
+      <!-- Populated via static/js/dashboard.js -->
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

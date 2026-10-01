@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Team & Academic Context — SPARK{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+  <div class="section-header" style="text-align: left; max-width: 100%; margin-bottom: 2.5rem;">
+    <span class="badge badge-primary"><i class="fa-solid fa-graduation-cap"></i> Academic Exhibition</span>
+    <h1 style="font-size: 2.4rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">Project Exhibition — I (DSN2098)</h1>
+    <p style="color: var(--text-secondary);">
+      Engineered by Team SPARK under expert faculty guidance, advancing transparent machine learning
+      for household electricity analytics and sustainability.
+    </p>
+  </div>
+
+  <!-- Mentorship & Review Board -->
+  <div class="mentor-card">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span class="badge badge-purple">Academic Mentorship & Evaluation</span>
+      <h2 style="font-size: 1.8rem; margin-top: 0.35rem;">Faculty Supervision Board</h2>
+    </div>
+
+    <div class="mentor-grid">
+      <div class="mentor-item">
+        <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); margin-bottom: 0.25rem;">
+          Project Supervisor
+        </div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Dr. Harshlata Vishwakarma</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Senior Academic Faculty & Mentor</p>
+      </div>
+
+      <div class="mentor-item">
+        <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--accent-gold); margin-bottom: 0.25rem;">
+          Reviewer I
+        </div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Dr. Velmani Ramasamy</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Evaluation & Review Panel Member</p>
+      </div>
+
+      <div class="mentor-item">
+        <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--accent-emerald); margin-bottom: 0.25rem;">
+          Reviewer II
+        </div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Dr. Amrita Parashar</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Evaluation & Review Panel Member</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Members Grid -->
+  <div class="section-header" style="text-align: left; max-width: 100%; margin-bottom: 1.75rem;">
+    <span class="badge badge-primary"><i class="fa-solid fa-users"></i> Project Contributors</span>
+    <h2 style="font-size: 2rem; margin-top: 0.35rem;">Team SPARK Roster</h2>
+  </div>
+
+  <div class="team-grid">
+    <!-- Member 1 -->
+    <div class="team-card">
+      <div class="member-avatar">SB</div>
+      <h3 class="member-name">Suhani Boxi</h3>
+      <div class="member-roll">Roll No: 25BAI10011</div>
+      <p class="member-role">Data Preprocessing, Cleaning Pipeline, IQR Outlier Detection & Schema Validation</p>
+    </div>
+
+    <!-- Member 2 -->
+    <div class="team-card">
+      <div class="member-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">JS</div>
+      <h3 class="member-name">Joydeep Samanta</h3>
+      <div class="member-roll">Roll No: 25BAI11045</div>
+      <p class="member-role">Machine Learning Regressors, Gradient Boosting Tuning & Model Evaluation</p>
+    </div>
+
+    <!-- Member 3 -->
+    <div class="team-card">
+      <div class="member-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">DG</div>
+      <h3 class="member-name">Dhairya Garg</h3>
+      <div class="member-roll">Roll No: 25BAI10224</div>
+      <p class="member-role">Open-Meteo Climatology API Integration & Feature Engineering Algorithms</p>
+    </div>
+
+    <!-- Member 4 -->
+    <div class="team-card">
+      <div class="member-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">SR</div>
+      <h3 class="member-name">Srishti Rai</h3>
+      <div class="member-roll">Roll No: 25BAI10554</div>
+      <p class="member-role">Exploratory Data Analysis, Empirical Correlation Studies & Business Insights</p>
+    </div>
+
+    <!-- Member 5 -->
+    <div class="team-card">
+      <div class="member-avatar" style="background: linear-gradient(135deg, #f43f5e, #e11d48);">AG</div>
+      <h3 class="member-name">Ashmita Ganguly</h3>
+      <div class="member-roll">Roll No: 25BAI10010</div>
+      <p class="member-role">Flask REST API, Leakage-Free Inference Pipeline & System Architecture</p>
+    </div>
+
+    <!-- Member 6 -->
+    <div class="team-card">
+      <div class="member-avatar" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">UG</div>
+      <h3 class="member-name">Ujjaval Gupta</h3>
+      <div class="member-roll">Roll No: 25BAI11102</div>
+      <p class="member-role">UI/UX Design System, Chart.js Visualizations & PDF Report Generation</p>
+    </div>
+  </div>
+
+  <!-- Tech Stack Showcase -->
+  <div class="card" style="margin-bottom: 3.5rem;">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fa-solid fa-layer-group"></i> Technologies & Engineering Frameworks</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.85rem;">
+      <span class="badge badge-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-brands fa-python"></i> Python 3.12</span>
+      <span class="badge badge-warning" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-brain"></i> Scikit-Learn</span>
+      <span class="badge badge-success" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-tree"></i> XGBoost</span>
+      <span class="badge badge-purple" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-server"></i> Flask Web Server</span>
+      <span class="badge badge-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-chart-pie"></i> Chart.js</span>
+      <span class="badge badge-warning" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-table"></i> Pandas</span>
+      <span class="badge badge-success" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-calculator"></i> NumPy</span>
+      <span class="badge badge-purple" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-cloud"></i> Open-Meteo API</span>
+    </div>
+  </div>
+
+  <!-- Academic References & Bibliography -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fa-solid fa-book-bookmark"></i> References & Literature Bibliography</h3>
+      <span class="badge badge-primary">Academic Citations</span>
+    </div>
+    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; font-size: 0.88rem; color: var(--text-secondary);">
+      <li style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <strong>1. Government & Industry Standards:</strong> Ministry of Power, Government of India; Bureau of Energy Efficiency (BEE) Star Labeling Standards; Smart Meter National Programme (SMNP).
+      </li>
+      <li style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <strong>2. Empirical Datasets:</strong> Indian Household Electricity Consumption Dataset, Kaggle; Open-Meteo Historical Weather Archive API.
+      </li>
+      <li style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <strong>3. Demand Forecasting Literature:</strong> "Household electricity consumption prediction using database combinations, ensemble and hybrid modeling techniques", <em>Energy and Buildings</em>.
+      </li>
+      <li style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <strong>4. Appliance Event Detection:</strong> "Residential electricity current and appliance dataset for AC-event detection from Indian dwellings", <em>Scientific Data</em>.
+      </li>
+      <li>
+        <strong>5. Optimization Frameworks:</strong> "Electricity Bill Prediction Based on a Particle Swarm Optimized Multilayer Perceptron Model", <em>IEEE Transactions on Smart Grid</em>.
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

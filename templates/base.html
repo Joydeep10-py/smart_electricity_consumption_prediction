@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SPARK — Smart Power Analytics & Recommendation for Kilowatt Optimization{% endblock %}</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Core & Print Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}" media="print">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Sticky Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="{{ url_for('home') }}" class="navbar-brand">
+        <span class="brand-icon"><i class="fa-solid fa-bolt"></i></span>
+        <span class="brand-text">SPARK</span>
+      </a>
+
+      <ul class="navbar-links" id="navbar-links">
+        <li><a href="{{ url_for('home') }}" class="nav-link"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="{{ url_for('predictor') }}" class="nav-link"><i class="fa-solid fa-sliders"></i> Predict</a></li>
+        <li><a href="{{ url_for('dashboard') }}" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+        <li><a href="{{ url_for('insights') }}" class="nav-link"><i class="fa-solid fa-lightbulb"></i> Insights</a></li>
+        <li><a href="{{ url_for('model_benchmarks') }}" class="nav-link"><i class="fa-solid fa-microchip"></i> Models</a></li>
+        <li><a href="{{ url_for('about') }}" class="nav-link"><i class="fa-solid fa-users"></i> Team & About</a></li>
+      </ul>
+
+      <div class="navbar-controls">
+        <span id="spark-mode-badge" class="mode-badge mode-live">
+          <span class="status-dot"></span> Live Backend API
+        </span>
+        <button id="spark-mode-toggle-btn" class="btn-mode-toggle" title="Switch execution mode">
+          Switch to Mock
+        </button>
+
+        <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle theme">
+          <i id="theme-toggle-icon" class="fa-solid fa-moon"></i>
+        </button>
+
+        <button id="navbar-hamburger" class="navbar-hamburger" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <span class="brand-icon"><i class="fa-solid fa-bolt"></i></span>
+            <span>SPARK</span>
+          </div>
+          <p class="footer-desc">
+            Smart Power Analytics & Recommendation for Kilowatt Optimization.
+            Machine learning regression models for empirical residential electricity forecasting,
+            leakage-free bill calculations, and actionable energy curtailment.
+          </p>
+          <div style="margin-top: 1rem;">
+            <span class="badge badge-primary">Course: DSN2098</span>
+            <span class="badge badge-purple" style="margin-left: 0.5rem;">Project Exhibition — I</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('home') }}">Home & Overview</a></li>
+            <li><a href="{{ url_for('predictor') }}">Appliance Predictor</a></li>
+            <li><a href="{{ url_for('dashboard') }}">Analytics Dashboard</a></li>
+            <li><a href="{{ url_for('insights') }}">EDA & Climatology</a></li>
+            <li><a href="{{ url_for('model_benchmarks') }}">Model Benchmarks</a></li>
+            <li><a href="{{ url_for('about') }}">Academic Team</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Academic Supervision</h4>
+          <p style="font-size: 0.88rem; margin-bottom: 0.5rem;"><strong>Project Supervisor:</strong><br>Dr. Harshlata Vishwakarma</p>
+          <p style="font-size: 0.88rem; margin-bottom: 0.5rem;"><strong>Reviewer I:</strong> Dr. Velmani Ramasamy</p>
+          <p style="font-size: 0.88rem;"><strong>Reviewer II:</strong> Dr. Amrita Parashar</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Team SPARK · Released under the MIT License
+        </div>
+        <div>
+          Engineered with <i class="fa-solid fa-heart" style="color: #ef4444;"></i> using Python 3.12, Scikit-learn & Flask
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Universal Scripts -->
+  <script src="{{ url_for('static', filename='js/data.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/recommendations.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

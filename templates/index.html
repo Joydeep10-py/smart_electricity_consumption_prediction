@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}SPARK — Smart Power Analytics & Recommendation for Kilowatt Optimization{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-glow"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="badge badge-primary"><i class="fa-solid fa-graduation-cap"></i> Project Exhibition — I · DSN2098</span>
+      <span class="badge badge-success" style="margin-left: 0.5rem;"><i class="fa-solid fa-check"></i> Model Trained & Evaluated</span>
+    </div>
+
+    <h1 class="hero-title">
+      Turn Appliance Usage Into <br>
+      <span class="text-gradient">Intelligent Energy Savings</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      SPARK predicts household electricity consumption directly from appliance runtime patterns,
+      derives transparent utility bills without target leakage, and equips consumers with
+      actionable kilowatt-saving recommendations.
+    </p>
+
+    <div class="hero-cta">
+      <a href="{{ url_for('predictor') }}" class="btn btn-primary">
+        <i class="fa-solid fa-bolt"></i> Launch Appliance Predictor
+      </a>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline">
+        <i class="fa-solid fa-chart-pie"></i> View Sample Dashboard
+      </a>
+      <a href="{{ url_for('model_benchmarks') }}" class="btn btn-outline">
+        <i class="fa-solid fa-microchip"></i> Model Benchmarks
+      </a>
+    </div>
+
+    <!-- Stat Counters Grid -->
+    <div class="stat-counter-grid">
+      <div class="stat-card">
+        <div class="stat-number stat-counter" data-target="45345">0</div>
+        <div class="stat-label">Household Records</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number stat-counter" data-target="16">0</div>
+        <div class="stat-label">Indian Cities</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number stat-counter" data-target="32">0</div>
+        <div class="stat-label">Power Distribution Companies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number stat-counter" data-target="0.557">0</div>
+        <div class="stat-label">Gradient Boosting R² Score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 Core Pillars Section -->
+<section style="padding: 2rem 0 4rem;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge"><span class="badge badge-purple">Methodology & Design</span></div>
+      <h2 class="section-title">Engineered with Scientific Integrity</h2>
+      <p class="section-subtitle">Addressing fundamental challenges in energy analytics through leakage-aware machine learning.</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper icon-blue">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 class="feature-title">Target-Leakage Safeguard</h3>
+        <p class="feature-desc">
+          In empirical utility records, <code>ElectricityBill = MonthlyHours × TariffRate</code> exactly.
+          Predicting bills directly using tariff as an input produces an artificial R² ≈ 1.0 by simply learning multiplication.
+          SPARK strictly predicts <strong>MonthlyHours</strong> as the genuine machine learning problem, deriving bills downstream.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper icon-gold">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+        <h3 class="feature-title">Precision ML Ensemble</h3>
+        <p class="feature-desc">
+          Evaluated across 7 regression algorithms with 3-fold cross-validation.
+          The <strong>Gradient Boosting Regressor</strong> emerged as the champion (MAE: 70.24, R²: 0.5569) with an unbiased,
+          normally distributed residual profile, confirming that remaining variance reflects real-world household variation.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper icon-emerald">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <h3 class="feature-title">Actionable Rupee Savings</h3>
+        <p class="feature-desc">
+          Rule-based advisory algorithms benchmark household runtime profiles against national consumption quartiles.
+          Users receive customized conservation strategies with prospective rupee savings calculated using their exact
+          municipal tariff schedule.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process Flow Section -->
+<section class="container" style="margin-bottom: 5rem;">
+  <div class="process-section">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 2rem;">
+        <span class="badge badge-primary">End-to-End Pipeline</span>
+        <h2 class="section-title">How SPARK Works</h2>
+        <p class="section-subtitle">From raw electrical datasets to real-time predictive intelligence.</p>
+      </div>
+
+      <div class="flow-grid">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <h4 class="step-title">Climatology & Cleaning</h4>
+          <p class="step-desc">Hourly Open-Meteo weather joined with 45k records; IQR outlier validation.</p>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <h4 class="step-title">Feature Engineering</h4>
+          <p class="step-desc">Wattage-weighted load, total appliance hours, cyclical trigonometric encoding.</p>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <h4 class="step-title">Model Evaluation</h4>
+          <p class="step-desc">7 candidate models tested; Gradient Boosting selected for lowest MAE & variance.</p>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <h4 class="step-title">Inference Engine</h4>
+          <p class="step-desc">Dual execution via Flask REST API or client-side fallback simulation.</p>
+        </div>
+
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <h4 class="step-title">Interactive Dashboard</h4>
+          <p class="step-desc">What-if simulation, appliance energy shares, and printable PDF reports.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem vs Solution Comparison -->
+<section style="margin-bottom: 5rem;">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge badge-warning">Why It Matters</span>
+      <h2 class="section-title">Rethinking Household Energy Monitoring</h2>
+      <p class="section-subtitle">Moving beyond passive monthly billing statements to proactive energy management.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+      <div class="card" style="border-left: 5px solid var(--accent-rose);">
+        <h3 style="color: var(--accent-rose); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-circle-xmark"></i> Traditional Electricity Billing
+        </h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.92rem;">
+          <li><i class="fa-solid fa-xmark text-danger" style="margin-right: 0.5rem;"></i> Consumers only see total billing cost at month-end with no appliance-level breakdown.</li>
+          <li><i class="fa-solid fa-xmark text-danger" style="margin-right: 0.5rem;"></i> Inability to forecast upcoming bills when adding appliances or during heatwaves.</li>
+          <li><i class="fa-solid fa-xmark text-danger" style="margin-right: 0.5rem;"></i> Hidden standby drain and inefficient appliances remain unnoticed for years.</li>
+          <li><i class="fa-solid fa-xmark text-danger" style="margin-right: 0.5rem;"></i> Generic energy tips lack specific rupee impact estimates.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-left: 5px solid var(--accent-emerald);">
+        <h3 style="color: var(--accent-emerald); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-circle-check"></i> With SPARK Intelligence
+        </h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.92rem;">
+          <li><i class="fa-solid fa-check text-success" style="margin-right: 0.5rem;"></i> Instant appliance energy breakdown (Fan, Refrigerator, AC, TV, Monitor).</li>
+          <li><i class="fa-solid fa-check text-success" style="margin-right: 0.5rem;"></i> Predictive forecasting before the billing cycle ends using trained ML regression.</li>
+          <li><i class="fa-solid fa-check text-success" style="margin-right: 0.5rem;"></i> Interactive "What-If" simulator to test savings before changing habits.</li>
+          <li><i class="fa-solid fa-check text-success" style="margin-right: 0.5rem;"></i> Transparent bill derivations backed by DISCOM-specific municipal tariffs.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="container" style="margin-bottom: 5rem;">
+  <div class="card" style="background: linear-gradient(135deg, var(--bg-card), var(--bg-subtle)); text-align: center; padding: 3.5rem 2rem; border-color: var(--primary);">
+    <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Ready to optimize your household power consumption?</h2>
+    <p style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-secondary);">
+      Input your daily appliance operating hours and receive immediate predictive insights, benchmark comparisons, and personalized rupee savings.
+    </p>
+    <a href="{{ url_for('predictor') }}" class="btn btn-primary btn-gold">
+      <i class="fa-solid fa-bolt"></i> Start Prediction Now
+    </a>
+  </div>
+</section>
+{% endblock %}

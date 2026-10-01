@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Exploratory Data Analysis & Climatology — SPARK{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+  <div class="section-header" style="text-align: left; max-width: 100%; margin-bottom: 2rem;">
+    <span class="badge badge-primary"><i class="fa-solid fa-chart-simple"></i> Empirical Findings</span>
+    <h1 style="font-size: 2.4rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">Exploratory Data Analysis & Weather Climatology</h1>
+    <p style="color: var(--text-secondary);">
+      Rigorous exploratory analysis across 45,345 household observations, 16 metropolitan regions,
+      and 12 months of Open-Meteo historical weather climatology.
+    </p>
+  </div>
+
+  <!-- Key EDA Business Insights Cards -->
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2.5rem;">
+    <div class="card">
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">
+        Top Correlate Appliance
+      </div>
+      <div style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 0.35rem 0;">
+        Television (r = 0.43)
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-secondary);">
+        Closely followed by Ceiling Fan (0.426) & Refrigerator (0.393).
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">
+        Highest Billing City
+      </div>
+      <div style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--accent-rose); margin: 0.35rem 0;">
+        Navi Mumbai
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-secondary);">
+        Avg Bill: ₹4,782.8 / mo (Highest municipal tariff at ₹9.3/unit).
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">
+        Lowest Billing City
+      </div>
+      <div style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--accent-emerald); margin: 0.35rem 0;">
+        Ratnagiri
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-secondary);">
+        Avg Bill: ₹3,807.4 / mo (Tariff rate: ₹7.4/unit).
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">
+        Weather Impact
+      </div>
+      <div style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--accent-gold); margin: 0.35rem 0;">
+        |r| &lt; 0.04
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-secondary);">
+        Empirically uncorrelated with consumption due to flat AC schedules.
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep Dive Scientific Context Card -->
+  <div class="card" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(245, 158, 11, 0.06)); border-color: rgba(37, 99, 235, 0.25); margin-bottom: 2.5rem;">
+    <h3 style="font-size: 1.15rem; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.6rem;">
+      <i class="fa-solid fa-cloud-sun-rain text-primary"></i> Scientific Finding: Why Ambient Weather Was Uncorrelated
+    </h3>
+    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.5rem;">
+      During initial exploration, historical daily and hourly weather data from Open-Meteo was joined to test hypotheses regarding thermal load and cooling demand.
+      However, correlation analysis revealed that temperature, humidity, and rainfall each exhibited Pearson coefficients of less than <strong>0.04</strong> with monthly electricity hours.
+    </p>
+    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+      A deep dive into appliance logs explained this phenomenon: household Air Conditioner runtime remained virtually static at an average of <strong>1.50 ± 0.02 hours/day across all 12 months</strong> (from 1.48h in May to 1.53h in September).
+      Because users in the dataset did not systematically increase AC hours during summer peaks, weather features possessed negligible predictive signal.
+      SPARK maintains scientific transparency by reporting these empirical results rather than fabricating artificial weather effects.
+    </p>
+  </div>
+
+  <!-- Charts Row 1: City Bill & Monthly Seasonality -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem;">
+    <div class="card chart-card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-city"></i> Average Electricity Bill by City (16 Metros)</h3>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="chart-insights-city-bill"></canvas>
+      </div>
+    </div>
+
+    <div class="card chart-card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-chart-line"></i> Monthly Consumption vs AC Runtime (Flatline Effect)</h3>
+      </div>
+      <div class="chart-card-body">
+        <canvas id="chart-insights-seasonality"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row 2: Correlation Analysis -->
+  <div class="card chart-card" style="height: 420px; margin-bottom: 3rem;">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fa-solid fa-arrows-split-up-and-left"></i> Pearson Feature Correlation with Monthly Hours (Target)</h3>
+      <span class="badge badge-primary">Blue: Appliance Hours · Grey: Weather Factors</span>
+    </div>
+    <div class="chart-card-body">
+      <canvas id="chart-insights-correlation"></canvas>
+    </div>
+  </div>
+
+  <!-- Climatology Data Table -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fa-solid fa-table"></i> National Monthly Climatology Reference Matrix</h3>
+      <span class="badge badge-purple">Open-Meteo Historical Export</span>
+    </div>
+    <div class="table-responsive">
+      <table class="spark-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Season</th>
+            <th>Max Temp (°C)</th>
+            <th>Min Temp (°C)</th>
+            <th>Mean Temp (°C)</th>
+            <th>Humidity (%)</th>
+            <th>Apparent Temp (°C)</th>
+            <th>Precipitation (mm)</th>
+          </tr>
+        </thead>
+        <tbody id="climatology-table-body">
+          <!-- Populated from data.js -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    SPARK_CHARTS.renderCityBillChart('chart-insights-city-bill');
+    SPARK_CHARTS.renderMonthlySeasonalityChart('chart-insights-seasonality');
+    SPARK_CHARTS.renderCorrelationChart('chart-insights-correlation');
+
+    // Populate Climatology Table
+    const tbody = document.getElementById('climatology-table-body');
+    if (tbody && SPARK_DATA.climatology) {
+      tbody.innerHTML = '';
+      SPARK_DATA.climatology.forEach(row => {
+        const tr = document.createElement('tr');
+        const season = getSeasonName(row.month);
+        tr.innerHTML = `
+          <td><strong>${row.name}</strong> (M${row.month})</td>
+          <td><span class="badge badge-${season.toLowerCase()}">${season}</span></td>
+          <td>${row.maxTemp.toFixed(1)}°</td>
+          <td>${row.minTemp.toFixed(1)}°</td>
+          <td>${row.meanTemp.toFixed(1)}°</td>
+          <td>${row.humidity.toFixed(1)}%</td>
+          <td>${row.apparentTemp.toFixed(1)}°</td>
+          <td>${row.precip.toFixed(1)} mm</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  });
+</script>
+{% endblock %}
